@@ -1,9 +1,14 @@
 'use strict'
 
 module.exports = class Temperature {
+
   constructor (value, scale) {
     this.value = value;
     this.scale = scale.toUpperCase();
+  }
+
+  toString() {
+    return `${this.value} ${this.scale}`;
   }
 
   toFahrenheit() {
@@ -29,4 +34,17 @@ module.exports = class Temperature {
     }
     return new Temperature(temperatureConverter(), 'K');
   }
+
+  toCelsius() {
+    if (this.scale === 'c'.toUpperCase()) throw new Error('Can not convert a temperature to it\'s same scale');
+
+    const temperatureConverter = () => {
+      if (this.scale === 'f'.toUpperCase()) {
+        return Number(((this.value - 32) * 5/9).toFixed(3));
+      }
+      return Number((this.value - 273.15).toFixed(3));
+    }
+    return new Temperature(temperatureConverter(), 'K');
+  }
+
 }
